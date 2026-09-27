@@ -20,6 +20,16 @@
     --input-border: #e1e8ed;
     --scrollbar-track: #f1f1f1;
     --scrollbar-thumb: #c1c1c1;
+    --scrollbar-thumb-hover: #a8a8a8;
+    --text-muted: #6c757d;
+    --modal-footer-bg: #f8f9fa;
+    --success-bg: #d4edda;
+    --success-text: #155724;
+    --success-border: #c3e6cb;
+    --error-bg: #f8d7da;
+    --error-text: #721c24;
+    --error-border: #f5c6cb;
+    color-scheme: light;
 }
 
 /* Dark Theme */
@@ -44,6 +54,16 @@
     --input-border: #52525b;
     --scrollbar-track: #27272a;
     --scrollbar-thumb: #52525b;
+    --scrollbar-thumb-hover: #71717a;
+    --text-muted: #a1a1aa;
+    --modal-footer-bg: #18181b;
+    --success-bg: rgba(34, 197, 94, 0.15);
+    --success-text: #86efac;
+    --success-border: rgba(34, 197, 94, 0.4);
+    --error-bg: rgba(239, 68, 68, 0.15);
+    --error-text: #fca5a5;
+    --error-border: rgba(239, 68, 68, 0.4);
+    color-scheme: dark;
 }
 
 /* 基本樣式 */
@@ -358,18 +378,18 @@ header {
 }
 
 .component-status.success {
-    background: #d4edda;
-    color: #155724;
+    background: var(--success-bg);
+    color: var(--success-text);
 }
 
 .component-status.error {
-    background: #f8d7da;
-    color: #721c24;
+    background: var(--error-bg);
+    color: var(--error-text);
 }
 
 .component-duration {
     font-size: 0.8rem;
-    color: #6c757d;
+    color: var(--text-muted);
     font-family: 'Courier New', monospace;
 }
 
@@ -492,7 +512,7 @@ header {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: var(--scrollbar-thumb-hover);
 }
 
 /* CAPTCHA 樣式 */
@@ -669,7 +689,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px 25px;
-    border-bottom: 1px solid #e1e8ed;
+    border-bottom: 1px solid var(--border-color);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border-radius: 15px 15px 0 0;
@@ -718,8 +738,8 @@ header {
     display: flex;
     gap: 15px;
     padding: 20px 25px;
-    border-top: 1px solid #e1e8ed;
-    background: #f8f9fa;
+    border-top: 1px solid var(--border-color);
+    background: var(--modal-footer-bg);
     border-radius: 0 0 15px 15px;
 }
 
@@ -835,9 +855,9 @@ header {
 
 /* 表單錯誤訊息樣式 */
 .form-error-message {
-    background: #fee;
-    color: #c33;
-    border: 2px solid #fcc;
+    background: var(--error-bg);
+    color: var(--error-text);
+    border: 2px solid var(--error-border);
     border-radius: 8px;
     padding: 12px 15px;
     margin-bottom: 15px;
@@ -849,9 +869,9 @@ header {
 
 /* 表單成功訊息樣式 */
 .form-success-message {
-    background: #efe;
-    color: #3c3;
-    border: 2px solid #cfc;
+    background: var(--success-bg);
+    color: var(--success-text);
+    border: 2px solid var(--success-border);
     border-radius: 8px;
     padding: 12px 15px;
     margin-bottom: 15px;

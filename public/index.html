@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FingerprintJS V4 指紋採集測試</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- 在首次繪製前套用主題，避免淺色閃爍 -->
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                theme = localStorage.getItem('theme');
+            } catch (e) {}
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     
     <!-- FingerprintJS V4 多重載入方案 -->
     <script>
@@ -309,7 +323,7 @@
     </div>
 
     <!-- 主題切換按鈕 -->
-    <button id="themeToggle" class="theme-toggle" aria-label="切換深色/淺色主題">
+    <button id="themeToggle" class="theme-toggle" aria-label="切換深色/淺色主題" aria-pressed="false">
         <span class="theme-toggle-icon">🌙</span>
     </button>
 
