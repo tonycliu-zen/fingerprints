@@ -1515,9 +1515,11 @@ class MultiFingerprintApp {
 // 主題管理器
 class ThemeManager {
     constructor() {
-        this.theme = this.getStoredTheme() || 'light';
+        // <head> 中的內嵌腳本已在首次繪製前設定 data-theme
+        this.theme = this.getInitialTheme();
         this.button = null;
         this.icon = null;
+        this.mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
         this.init();
     }
 
@@ -1531,21 +1533,41 @@ class ThemeManager {
     }
 
     setup() {
-        // 應用儲存的主題
         this.applyTheme(this.theme);
 
         // 綁定切換按鈕
         this.button = document.getElementById('themeToggle');
         this.icon = this.button?.querySelector('.theme-toggle-icon');
+        this.updateButton();
 
         if (this.button) {
             this.button.addEventListener('click', () => this.toggleTheme());
         }
+
+        // 使用者未手動選擇時，跟隨系統主題變更
+        this.mediaQuery?.addEventListener?.('change', (event) => {
+            if (!this.getStoredTheme()) {
+                this.applyTheme(event.matches ? 'dark' : 'light');
+            }
+        });
+    }
+
+    getInitialTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'light' || current === 'dark') {
+            return current;
+        }
+        return this.getStoredTheme() || this.getSystemTheme();
+    }
+
+    getSystemTheme() {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
 
     getStoredTheme() {
         try {
-            return localStorage.getItem('theme');
+            const theme = localStorage.getItem('theme');
+            return theme === 'light' || theme === 'dark' ? theme : null;
         } catch (error) {
             console.warn('無法讀取主題設定:', error);
             return null;
@@ -1563,18 +1585,23 @@ class ThemeManager {
     applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         this.theme = theme;
-        this.updateIcon();
-        this.setStoredTheme(theme);
+        this.updateButton();
     }
 
     toggleTheme() {
         const newTheme = this.theme === 'light' ? 'dark' : 'light';
         this.applyTheme(newTheme);
+        // 只有使用者手動切換時才儲存偏好
+        this.setStoredTheme(newTheme);
     }
 
-    updateIcon() {
+    updateButton() {
         if (this.icon) {
             this.icon.textContent = this.theme === 'light' ? '🌙' : '☀️';
+        }
+        if (this.button) {
+            this.button.setAttribute('aria-pressed', String(this.theme === 'dark'));
+            this.button.title = this.theme === 'light' ? '切換為深色主題' : '切換為淺色主題';
         }
     }
 }
